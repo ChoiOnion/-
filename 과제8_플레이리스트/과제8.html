@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>노래 목록</title>
+    </head>
+    <style>
+ @import 
+        url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;600&display=swap');
+        body{
+            font-family: 'Noto Sans KR',sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+        }
+    </style>
+    <body>
+        <script>
+            var count = 0
+            function addList(){
+                var singer = document.getElementById("singer");
+                var title = document.getElementById("title");
+                var songs = document.getElementById("songs");
+
+                var song = document.createElement('option');
+                song.text = singer.value + " - " + title.value;
+                song.value = count;
+
+                if(singer.value!=""&&title.value!=""){
+                    songs.add(song, songs.selectedIndex);
+                    singer.value="";
+                    title.value="";
+                }else{
+                    window.alert("가수와 제목을 입력해주세요.");
+                }
+                count += 1;
+            }
+
+            function removeList(){
+                var songs = document.getElementById('songs');
+                var i;
+                for(i = 0; i<=count; i++){
+                    if(songs.options[i].selected){
+                        songs.remove(i);
+                    }
+                }
+            }
+        </script>
+
+        <form>
+            <p>가수와 제목을 입력하고 추가 버튼을 누르세요.</p>
+            가수: <input type="text" id="singer" style="width: 160px;"><br>
+            제목: <input type="text" id="title" style="width: 160px;"><br>
+            　 　 　 　　　　　　　<input type="button" onclick="addList()" value="추가">
+            <br><br>
+            <select id="songs" size=10 style="width: 200px;">
+            </select>
+            <br>
+            　 　 　 　　　　　　　<input type="button" onclick="removeList()" value="삭제">
+        </form>
+
+    </body>
+</html>

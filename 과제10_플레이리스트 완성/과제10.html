@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>플레이리스트</title>
+    </head>
+    <style>
+ @import 
+        url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;600&display=swap');
+        body{
+            font-family: 'Noto Sans KR',sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+        }
+    </style>
+    <body>
+        <form>
+            <p>가수와 제목을 입력하고 추가 버튼을 누르세요.</p>
+            가수: <input type="text" id="singer" style="width: 160px;"><br>
+            제목: <input type="text" id="title" style="width: 160px;"><br>
+            　 　 　 　　　　　　　<input type="button" onclick="addSong()" value="추가">
+            <br><br>
+        </form>
+        <hr>
+        <ul id="playlist"></ul>
+    </body>
+    
+    <script>
+
+        var savedDate=JSON.parse(localStorage.getItem('localSonglist'))||[];
+
+        function update(){
+            var playlist = document.getElementById("playlist");
+            playlist.innerHTML = '';
+            savedDate.forEach(song => {
+                var li = document.createElement("li");
+                li.innerHTML = `
+                <span>${song}</span>
+                <button onclick="removeSong(this)">삭제</button>
+                `;
+                playlist.appendChild(li);
+            });
+        }
+
+        update();
+
+        function addSong() {
+            var singer = document.getElementById("singer");
+            var title = document.getElementById("title");
+
+            if(singer.value!=""&&title.value!=""){
+                var song = singer.value+" - "+title.value;
+                savedDate.push(song);
+                localStorage.setItem("localSonglist", JSON.stringify(savedDate));
+                update();
+                singer.value="";
+                title.value="";
+            }else{
+                alert("가수와 제목을 입력하세요.");
+            }
+
+            update();
+        }
+
+        function removeSong(button){
+            var li = button.parentElement;
+            var song = li.querySelector('span').textContent;
+            savedDate.splice(savedDate.indexOf(song),1);
+            localStorage.setItem("localSonglist", JSON.stringify(savedDate));
+            update();
+        }
+    </script>
+</html>

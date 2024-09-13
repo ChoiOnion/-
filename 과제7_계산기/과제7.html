@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>계산기</title>
+    </head>
+    <style>
+        @import 
+        url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;600&display=swap');
+        body{
+            font-family: 'Noto Sans KR',sans-serif;
+            font-weight: 300;
+            font-size: 20px;
+        }
+        form{
+            padding: 15px;
+            width: 180px;
+            background-color: lightsteelblue;
+            border-radius: 10px;
+            border-color: gainsboro;
+            border-style: groove;
+            border-width: 5px;
+        }
+        input{
+            background-color: whitesmoke;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border-color:silver;
+            border-style: outset;
+        }
+        #exp{
+            background-color:#ebfdff;
+            width: 168px;
+            height: 40px;
+            border-color: gainsboro;
+            border-style: inset;
+            font-size: 30px;
+        }
+    </style>
+    <body>
+        <form>
+            <input id="exp" type="text" value="" disabled><br><br>
+            <input type="button" value="Clear" style="width: 130px;" onclick="reset()">
+            <input type="button" value="=" onclick="calculate()"><br>
+            <input type="button" value="7" onclick="add(7)">
+            <input type="button" value="8" onclick="add(8)">
+            <input type="button" value="9" onclick="add(9)">
+            <input type="button" value="+" onclick="add('+')"><br>
+            <input type="button" value="4" onclick="add(4)">
+            <input type="button" value="5" onclick="add(5)">
+            <input type="button" value="6" onclick="add(6)">
+            <input type="button" value="-" onclick="add('-')"><br>
+            <input type="button" value="1" onclick="add(1)">
+            <input type="button" value="2" onclick="add(2)">
+            <input type="button" value="3" onclick="add(3)">
+            <input type="button" value="*" onclick="add('*')"><br>
+            <input type="button" value="." onclick="add('.')">
+            <input type="button" value="0" style="width: 84px;" onclick="add(0)">
+            <input type="button" value="/" onclick="add('/')"><br>
+        </form>
+
+        <script>
+            var numberSelected = false; //전에 입력받은 것이 숫자인지 구분
+            var calculated = false; //계산기 한 번 이루어졌는지 확인 (초기화 목적)
+            function isOperator(char){
+                switch(char){
+                    case "+":
+                        return true;
+                        break;
+                
+                    case "-":
+                        return true;
+                        break;
+
+                    case "/":
+                        return true;
+                        break;
+
+                    case "*":
+                        return true;
+                        break;
+
+                    case ".":
+                        return true;
+                        break;
+                    
+                    default:
+                        return false;
+                }
+            }
+            function add(char){
+                var exp = document.getElementById('exp');
+                if(calculated==true && isOperator(char) == false){ //계산이 이미 이루어졌고 다음에 입력 받은 것이 숫자면 식 초기화
+                    exp.value = "";
+                    calculated = false;
+                }else if(calculated == true && isOperator(char) == true){ //계산이 이미 이루어졌고 다음에 입력 받은 것이 기호라면 이어서 계산
+                    calculated = false;
+                }
+                if(numberSelected == true){     //전에 입력받은 것이 숫자인 경우 값 추가
+                    exp.value += char;
+                }else{
+                    if(isOperator(char)==false){
+                        exp.value += char;
+                    }else{      //전에 입력받은 것이 숫자가 아닌 경우(기호인 경우) 다음 입력이 숫자가 아니면 추가 X
+                    }
+                }
+                
+                if(isOperator(char)==false){
+                    numberSelected = true;
+                }else{
+                    numberSelected = false;
+                }
+            }
+            function calculate(){
+                var exp = document.getElementById("exp");
+                if(exp.value!=""){
+                    exp.value = eval(exp.value);
+                    calculated = true;
+                }
+            }
+            function reset(){
+                var exp = document.getElementById("exp");
+                exp.value="";
+            }
+        </script>
+    </body>
+</html>
